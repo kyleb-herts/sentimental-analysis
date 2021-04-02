@@ -6,12 +6,23 @@
 import pandas as pd
 from afinn import Afinn
 
+
+def modify_helpful_value(text_string):
+    # NaN value reurn 1.0
+    if text_string != text_string:
+        return 1.0
+    else:
+        return text_string
+
 afinn = Afinn(language='en', emoticons=True)
 
 pd.set_option('display.max_rows', None)
 
 data = pd.read_csv("reviews_pseudoanonymised.csv")
-data['afinn_score'] = data['comment'].apply(afinn.score)
+# Add the helpful column as the factor of the overall score
+# if helpful column is nothing, return 1; otherwise, return original value
+data['helpful'] = data['helpful'].apply(modify_helpful_value)
+data['afinn_score'] = data['comment'].apply(afinn.score) * data['helpful']
 
 columns_to_display = ['comment', 'afinn_score']
 filtered_data = data.sort_values(by='afinn_score', ascending=False)[columns_to_display]
