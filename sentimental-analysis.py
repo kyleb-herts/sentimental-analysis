@@ -5,6 +5,7 @@
 
 import pandas as pd
 from afinn import Afinn
+import plot_chart
 
 
 def modify_helpful_value(text_string):
