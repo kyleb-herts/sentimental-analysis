@@ -23,7 +23,7 @@ data = pd.read_csv("reviews_pseudoanonymised.csv")
 # Add the helpful column as the factor of the overall score
 # if helpful column is nothing, return 1; otherwise, return original value
 data['helpful'] = data['helpful'].apply(modify_helpful_value)
-data['afinn_score'] = data['comment'].apply(afinn.score) * data['helpful']
+data['afinn_score'] = data['comment'].apply(afinn.score)
 
 columns_to_display = ['comment', 'afinn_score']
 filtered_data = data.sort_values(by='afinn_score', ascending=False)[columns_to_display]
