@@ -38,16 +38,25 @@ columns_to_display = ['comment', 'afinn_score']
 #set rows to be sorted by afinn score
 filtered_data = data.sort_values(by='afinn_score', ascending=False)[columns_to_display]
 
+#set top 10 positive and top 10 negative comments as outputs
+filtered_data_top_ten_positive = filtered_data.head(10)
+filtered_data_top_ten_negative = filtered_data.sort_values(by='afinn_score', ascending=True).head(10)
+
+
 #send outputs to terminal for testing
 #print("\n")
 #print(filtered_data)
 #print("\n")
 #print("Afinn Score From Comments Summary")
 #print(data['afinn_score'].describe())
+#print(filtered_data.head(10))
+#print(filtered_data.sort_values(by='afinn_score', ascending=True).head(10))
 
 #output data to csv files
 filtered_data.to_csv('reviews_pseudoanonymised_afinn_score_applied.csv')
 data['afinn_score'].describe().to_csv('afinn_score_summary.csv')
+filtered_data_top_ten_positive.to_csv('afinn_score_top_ten_positive.csv')
+filtered_data_top_ten_negative.to_csv('afinn_score_top_ten_negative.csv')
 
 #notify user script has finished processing
 print("Sentiment Analyis completed - AFINN score applied")
