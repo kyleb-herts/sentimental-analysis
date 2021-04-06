@@ -32,8 +32,14 @@ data['helpful'] = data['helpful'].apply(modify_helpful_value)
 #apply afinn score to comments
 data['afinn_score'] = data['comment'].apply(afinn.score)
 
+#find word that match in afinn wordlist
+data['afinn_triggers'] = data['comment'].apply(afinn.find_all)
+
+#find scores of words matching afinn wordlist
+data['afinn_trigger_words_scores'] = data['comment'].apply(afinn.scores_with_pattern)
+
 #set column output to only be the comment and afinn score
-columns_to_display = ['comment', 'afinn_score']
+columns_to_display = ['comment', 'afinn_score', 'afinn_triggers', 'afinn_trigger_words_scores']
 
 #set rows to be sorted by afinn score
 filtered_data = data.sort_values(by='afinn_score', ascending=False)[columns_to_display]
